@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useGetContext } from "@forrestjs/react-root";
 
 import { ProtectedRoute } from "./ProtectedRoute";
