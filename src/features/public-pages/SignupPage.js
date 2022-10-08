@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useOutletContext } from "react-router-dom";
 import { useSignUpEmailPassword } from "@nhost/react";
 
 import Typography from "@mui/material/Typography";
@@ -13,6 +13,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 
 export const SignupPage = () => {
+  const { appName } = useOutletContext();
   const {
     signUpEmailPassword,
     isLoading,
@@ -49,7 +50,7 @@ export const SignupPage = () => {
   return (
     <Box component="form" onSubmit={onSubmit}>
       <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        Create New Account <small>- Family Economy App</small>
+        Create New Account <small>- {appName}</small>
       </Typography>
       <Divider />
 

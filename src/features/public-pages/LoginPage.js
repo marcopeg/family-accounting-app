@@ -1,5 +1,5 @@
 import { useSignInEmailPasswordless } from "@nhost/react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
@@ -13,6 +13,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 
 export const LoginPage = () => {
+  const { appName } = useOutletContext();
   const {
     signInEmailPasswordless,
     isLoading,
@@ -54,7 +55,7 @@ export const LoginPage = () => {
   return (
     <Box component="form" onSubmit={onSubmit}>
       <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        Login <small>- Family Economy App</small>
+        Login <small>- {appName}</small>
       </Typography>
       <Divider />
 

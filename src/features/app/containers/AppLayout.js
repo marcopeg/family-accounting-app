@@ -1,3 +1,4 @@
+import { useGetConfig } from "@forrestjs/react-root";
 import { Outlet } from "react-router-dom";
 import { useUserId, useSignOut } from "@nhost/react";
 
@@ -24,6 +25,7 @@ const GET_USER_QUERY = gql`
 `;
 
 export const AppLayout = () => {
+  const appName = useGetConfig("app.name");
   const { signOut } = useSignOut();
 
   const userId = useUserId();
@@ -43,7 +45,7 @@ export const AppLayout = () => {
       <AppBar>
         <Toolbar variant="dense">
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Pegoreale
+            {appName}
           </Typography>
           <Stack direction="row" spacing={1}>
             <IconButton color="inherit" size="large" onClick={signOut}>
@@ -56,7 +58,7 @@ export const AppLayout = () => {
       {error ? (
         <Alert severity="error">{error.message}</Alert>
       ) : !loading ? (
-        <Outlet context={{ userId, uname }} />
+        <Outlet context={{ userId, uname, appName }} />
       ) : null}
     </>
   );
