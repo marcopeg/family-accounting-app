@@ -38,7 +38,7 @@ export const AppLayout = () => {
     return null;
   }
 
-  const uname = data?.user.email.split("@").shift;
+  const uname = data?.user.email.split("@").shift();
 
   const onLogout = () => {
     // eslint-disable-next-lin
