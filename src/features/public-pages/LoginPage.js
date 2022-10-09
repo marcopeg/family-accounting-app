@@ -29,7 +29,9 @@ export const LoginPage = () => {
     const form = new FormData(e.target);
     const uname = form.getAll("email").shift();
 
-    await signInEmailPasswordless(uname);
+    await signInEmailPasswordless(uname, {
+      redirectTo: window.location.origin
+    });
   };
 
   if (isSuccess) {

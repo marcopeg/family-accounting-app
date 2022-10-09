@@ -40,6 +40,13 @@ export const AppLayout = () => {
 
   const uname = data?.user.email.split("@").shift;
 
+  const onLogout = () => {
+    // eslint-disable-next-lin
+    if (window.confirm("Sure you want to logout?")) {
+      signOut();
+    }
+  };
+
   return (
     <>
       <AppBar>
@@ -48,7 +55,7 @@ export const AppLayout = () => {
             {appName}
           </Typography>
           <Stack direction="row" spacing={1}>
-            <IconButton color="inherit" size="large" onClick={signOut}>
+            <IconButton color="inherit" size="large" onClick={onLogout}>
               <LogoutIcon />
             </IconButton>
           </Stack>
