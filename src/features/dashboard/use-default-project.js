@@ -15,7 +15,6 @@ const GET_PROJECTS = gql`
   query GetAllProjectsWithDefault($userId: uuid!) {
     projects {
       id
-      title
     }
     user(id: $userId) {
       defaultProject: metadata(path: "defaultProject")
@@ -32,8 +31,13 @@ const SET_DEFAULT_PROJECT = gql`
 `;
 
 const CREATE_DEFAULT_PROJECT = gql`
-  mutation CreateDefaultProject($title: String!) {
-    insert_projects_one(object: { title: $title }) {
+  mutation CreateDefaultProject(
+    $title: String!
+    $categories: [projects_categories_insert_input!]!
+  ) {
+    insert_projects_one(
+      object: { title: $title, projects_categories: { data: $categories } }
+    ) {
       id
     }
   }
@@ -63,7 +67,16 @@ export const useDefaultProject = (userId) => {
         if (!data.projects.length) {
           await createDefaultProject({
             variables: {
-              title: "Personal Economy"
+              title: "Personal Economy",
+              categories: [
+                { title: "Supermarket" },
+                { title: "Rent & Bills" },
+                { title: "Restaurants & Pubs" },
+                { title: "Family & Pets" },
+                { title: "Travels & Transports" },
+                { title: "Health & Wellness" },
+                { title: "Extra stuff..." }
+              ]
             }
           });
 

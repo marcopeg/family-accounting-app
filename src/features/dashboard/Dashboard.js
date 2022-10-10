@@ -1,20 +1,19 @@
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Navigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 
 import { useDefaultProject } from "./use-default-project";
 
 export const Dashboard = () => {
-  const { uname, userId } = useOutletContext();
+  const { userId } = useOutletContext();
   const { data, error } = useDefaultProject(userId);
 
+  if (data) {
+    return <Navigate to={`/project/${data.id}/add`} />;
+  }
+
   return (
-    <Box m={3}>
-      <Typography>{`Welcome ${uname}`}</Typography>
-      {error && <Alert severity="error">{error.message}</Alert>}
-      {data && <Typography>Project: {data.title}</Typography>}
-    </Box>
+    <Box m={3}>{error && <Alert severity="error">{error.message}</Alert>}</Box>
   );
 };
