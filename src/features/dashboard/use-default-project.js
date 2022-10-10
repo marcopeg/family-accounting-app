@@ -100,7 +100,7 @@ export const useDefaultProject = (userId) => {
     };
 
     loop();
-  }, []);
+  }, [createDefaultProject, setDefaultProject, projects, userId]);
 
   return state;
 };
