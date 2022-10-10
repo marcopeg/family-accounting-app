@@ -1,5 +1,5 @@
-import { useSignInEmailPasswordless } from "@nhost/react";
-import { Link, useOutletContext } from "react-router-dom";
+import { useSignInEmailPassword } from "@nhost/react";
+import { Link, Navigate, useOutletContext } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
@@ -10,38 +10,34 @@ import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import PasswordIcon from "@mui/icons-material/Password";
 import InputAdornment from "@mui/material/InputAdornment";
 
 export const LoginPage = () => {
   const { appName } = useOutletContext();
   const {
-    signInEmailPasswordless,
+    signInEmailPassword,
     isLoading,
     isSuccess,
     needsEmailVerification,
     isError,
     error
-  } = useSignInEmailPasswordless();
+  } = useSignInEmailPassword();
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     const uname = form.getAll("email").shift();
+    const passw = form.getAll("password").shift();
 
-    await signInEmailPasswordless(uname, {
+    await signInEmailPassword(uname, passw, {
       redirectTo: window.location.origin
     });
   };
 
   if (isSuccess) {
-    return (
-      <Alert severity="success">
-        <AlertTitle>Login Succeeded!</AlertTitle>
-        We sent you a <strong>Magic Link</strong> to your mailbox. <br />
-        Click on it to login.
-      </Alert>
-    );
+    return <Navigate to="/" replace />;
   }
 
   if (needsEmailVerification) {
@@ -78,6 +74,19 @@ export const LoginPage = () => {
             startAdornment: (
               <InputAdornment position="start">
                 <AccountCircle />
+              </InputAdornment>
+            )
+          }}
+        />
+        <TextField
+          type="password"
+          name="password"
+          disabled={isLoading}
+          size="small"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PasswordIcon />
               </InputAdornment>
             )
           }}
