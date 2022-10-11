@@ -41,14 +41,15 @@ export const RegisterExpense = () => {
             name="amount"
             placeholder="0.00"
             InputProps={{
-              inputMode: "numeric",
-              pattern: "[0-9]*",
               startAdornment: (
                 <InputAdornment position="start">
                   <EuroIcon />
                 </InputAdornment>
               ),
               inputProps: {
+                type: "number",
+                inputMode: "decimal",
+                pattern: "[0-9]*",
                 style: { paddingLeft: 10 }
               }
             }}
