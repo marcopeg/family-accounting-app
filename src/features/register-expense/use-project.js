@@ -20,6 +20,17 @@ export const useProject = () => {
     variables: { id }
   });
 
+  // Handle project not found:
+  if (data && !data.project) {
+    return {
+      projectId: id,
+      loading: false,
+      project: null,
+      categories: [],
+      error: new Error("Project not found")
+    };
+  }
+
   return {
     projectId: id,
     loading,

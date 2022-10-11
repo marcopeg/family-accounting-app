@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 import InputAdornment from "@mui/material/InputAdornment";
 import EuroIcon from "@mui/icons-material/Euro";
 
@@ -15,7 +17,7 @@ import { useProject } from "./use-project";
 
 export const RegisterExpense = () => {
   const { project, categories } = useProject();
-  console.log(project);
+  console.log(project, categories);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +31,20 @@ export const RegisterExpense = () => {
 
     console.log(formData);
   };
+
+  if (!project) {
+    return (
+      <Box>
+        <Alert severity="error">Project not found!</Alert>
+        <Box sx={{ m: 2 }}>
+          <Button variant="contained" fullWidth component={Link} to="/">
+            ok
+          </Button>
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ backgroundColor: "#ddd", pt: 0.01, pb: 0.01 }}>
       <Stack sx={{ m: 2 }} spacing={2} component="form" onSubmit={onSubmit}>
