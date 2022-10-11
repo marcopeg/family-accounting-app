@@ -10,6 +10,7 @@ import nhostService from "./services/nhost";
 import app from "./features/app";
 import publicPages from "./features/public-pages";
 import dashboard from "./features/dashboard";
+import registerExpense from "./features/register-expense";
 
 forrest
   .run({
@@ -19,6 +20,6 @@ forrest
       }
     },
     services: [reactRoot, reactRouter, reactMUI, nhostService],
-    features: [app, publicPages, dashboard]
+    features: [app, publicPages, dashboard, registerExpense]
   })
   .catch((err) => console.error(`Boot: ${err.message}`));

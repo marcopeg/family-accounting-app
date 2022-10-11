@@ -10,7 +10,7 @@ export const Dashboard = () => {
   const { data, error } = useDefaultProject(userId);
 
   if (data) {
-    return <Navigate to={`/project/${data.id}/add`} />;
+    return <Navigate to={`/project/${data.id}/register`} />;
   }
 
   return (
