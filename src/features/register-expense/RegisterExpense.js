@@ -13,11 +13,14 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+
 import { useProject } from "./use-project";
+import { MembersField } from "./MembersField";
 
 export const RegisterExpense = () => {
-  const { project, categories } = useProject();
-  console.log(project, categories);
+  const { error, categories, members } = useProject();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -26,16 +29,18 @@ export const RegisterExpense = () => {
     const formData = {
       amount: form.getAll("amount").shift(),
       category: form.getAll("category").shift(),
+      notes: form.getAll("notes").shift(),
+      reporter: form.getAll("reporter").shift(),
       date: form.getAll("date").shift()
     };
 
     console.log(formData);
   };
 
-  if (!project) {
+  if (error) {
     return (
       <Box>
-        <Alert severity="error">Project not found!</Alert>
+        <Alert severity="error">{error.message}</Alert>
         <Box sx={{ m: 2 }}>
           <Button variant="contained" fullWidth component={Link} to="/">
             ok
@@ -46,8 +51,12 @@ export const RegisterExpense = () => {
   }
 
   return (
-    <Box sx={{ backgroundColor: "#ddd", pt: 0.01, pb: 0.01 }}>
-      <Stack sx={{ m: 2 }} spacing={2} component="form" onSubmit={onSubmit}>
+    <Box
+      component="form"
+      onSubmit={onSubmit}
+      sx={{ backgroundColor: "#ddd", pt: 0.01, pb: 0.01 }}
+    >
+      <Stack sx={{ m: 2 }} spacing={2}>
         <Paper sx={{ p: 2 }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             Amount
@@ -71,6 +80,7 @@ export const RegisterExpense = () => {
             }}
           />
         </Paper>
+
         <Paper sx={{ p: 2 }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             Category
@@ -94,6 +104,8 @@ export const RegisterExpense = () => {
           <TextField multiline fullWidth name="notes" rows={4} />
         </Paper>
 
+        <MembersField members={members} />
+
         <Paper sx={{ p: 2 }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             When
@@ -105,11 +117,19 @@ export const RegisterExpense = () => {
             defaultValue={new Date().toISOString().split("T")[0]}
           />
         </Paper>
-
-        <Button type="submit" variant="contained">
-          Save
-        </Button>
       </Stack>
+
+      <Toolbar variant="dense" />
+      <AppBar
+        position="fixed"
+        sx={{ top: "auto", bottom: 0, background: "white" }}
+      >
+        <Toolbar variant="dense">
+          <Button type="submit" variant="contained" fullWidth>
+            Save
+          </Button>
+        </Toolbar>
+      </AppBar>
     </Box>
   );
 };

@@ -10,32 +10,65 @@ const GET_PROJECT = gql`
         id
         title
       }
+      members: projects_users {
+        user {
+          id
+          displayName
+          avatarUrl
+          email
+        }
+      }
+      owner: user {
+        id
+        displayName
+        avatarUrl
+        email
+      }
     }
   }
 `;
 
 export const useProject = () => {
   const { id } = useParams();
-  const { loading, data, ...getProject } = useQuery(GET_PROJECT, {
+  const { loading, data, error } = useQuery(GET_PROJECT, {
     variables: { id }
   });
+
+  if (loading || error) {
+    return {
+      projectId: id,
+      loading,
+      error,
+      project: null,
+      categories: [],
+      members: []
+    };
+  }
 
   // Handle project not found:
   if (data && !data.project) {
     return {
+      error: new Error("Project not found"),
       projectId: id,
       loading: false,
       project: null,
       categories: [],
-      error: new Error("Project not found")
+      members: []
     };
   }
 
   return {
     projectId: id,
-    loading,
-    project: data ? data.project : null,
-    categories: data ? data.project.categories : [],
-    error: getProject.error
+    loading: false,
+    error: null,
+    project: data.project,
+    categories: data.project.categories,
+    members: [
+      data.project.owner,
+      ...data.project.members.map(($) => $.user)
+    ].map(($) => ({
+      ...$,
+      isOwner: $.id === data.project.owner.id
+    }))
   };
 };
